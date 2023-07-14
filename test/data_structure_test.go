@@ -13,7 +13,7 @@ func TestCreateValidPurchase(t *testing.T) {
 	price := 1.59
 	qty := 2
 	time := time.Now()
-	purchase, err := internal.Purchase(vendor, name, shop, price, qty, time)
+	purchase, err := internal.NewPurchase(vendor, name, shop, price, qty, time)
 	if err != nil {
 		t.Errorf("Purchase creation failed, except it should: %s", err)
 	}

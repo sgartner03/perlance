@@ -14,7 +14,7 @@ type Purchase struct {
 	time   time.Time
 }
 
-func (*Purchase) Purchase(vendor string, name string, shop string, price float32, qty int, time time.Time) (*Purchase, error) {
+func NewPurchase(vendor string, name string, shop string, price float32, qty int, time time.Time) (*Purchase, error) {
 	if price < 0.0 {
 		return nil, errors.New("price can't be negative")
 	}
@@ -32,4 +32,24 @@ func (*Purchase) Purchase(vendor string, name string, shop string, price float32
 	}
 
 	return purchase, nil
+}
+
+func (p *Purchase) GetVendor() string {
+	return p.vendor
+}
+
+func (p *Purchase) GetName() string {
+	return p.name
+}
+func (p *Purchase) GetShop() string {
+	return p.shop
+}
+func (p *Purchase) GetPrice() float32 {
+	return p.price
+}
+func (p *Purchase) GetQty() int {
+	return p.qty
+}
+func (p *Purchase) GetTime() time.Time {
+	return p.time
 }
