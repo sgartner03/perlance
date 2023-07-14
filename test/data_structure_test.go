@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/sgartner03/perlance/internal"
 	"testing"
 	"time"
 )
