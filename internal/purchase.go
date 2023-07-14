@@ -9,20 +9,20 @@ type Purchase struct {
 	vendor string
 	name   string
 	shop   string
-	price  float32
+	price  float64
 	qty    int
 	time   time.Time
 }
 
-func NewPurchase(vendor string, name string, shop string, price float32, qty int, time time.Time) (*Purchase, error) {
+func NewPurchase(vendor string, name string, shop string, price float64, qty int, time time.Time) (Purchase, error) {
 	if price < 0.0 {
-		return nil, errors.New("price can't be negative")
+		return Purchase{}, errors.New("price can't be negative")
 	}
 	if qty <= 0 {
-		return nil, errors.New("qty can't be 0 or negative")
+		return Purchase{}, errors.New("qty can't be 0 or negative")
 	}
 
-	purchase := &Purchase{
+	purchase := Purchase{
 		vendor: vendor,
 		name:   name,
 		shop:   shop,
@@ -44,7 +44,7 @@ func (p *Purchase) GetName() string {
 func (p *Purchase) GetShop() string {
 	return p.shop
 }
-func (p *Purchase) GetPrice() float32 {
+func (p *Purchase) GetPrice() float64 {
 	return p.price
 }
 func (p *Purchase) GetQty() int {
