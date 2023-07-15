@@ -1,0 +1,91 @@
+name: Tests for REST-Endpoint
+vars:
+  url: http://localhost:8080/purchases
+  id: 1
+  vendor: McDonald's
+  name: McChicken
+  shop: McDonald's
+  price: 4.5
+  qty: 1
+  time: "2022-11-02 19:00:01"
+testcases:
+  - name: Create purchase
+    steps:
+      - type: http
+        method: POST
+        url: "{{url}}"
+        timeout: 5
+        bodyFile: body/purchase.json.tmpl
+        preserve_bodyfile: true
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.id ShouldEqual {{.id}}
+          - result.bodyjson.vendor ShouldEqual {{.vendor}}
+          - result.bodyjson.name ShouldEqual {{.name}}
+          - result.bodyjson.shop ShouldEqual {{.shop}}
+          - result.bodyjson.price ShouldEqual {{.price}}
+          - result.bodyjson.qty ShouldEqual {{.qty}}
+          - result.bodyjson.time ShouldEqual {{.time}}
+  - name: Read purchase
+    steps:
+      - type: http
+        method: GET
+        url: "{{url}}/1"
+        timeout: 5
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.id ShouldEqual result.request.body
+  - name: Update purchase
+    vars:
+      price: 5.5
+    steps:
+      - type: http
+        method: PUT
+        url: "{{url}}/1"
+        timeout: 5
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.id ShouldEqual result.request.body
+      - type: http
+          method: GET
+          url: "{{url}}/1"
+          timeout: 5
+          headers:
+            Accept: application/json
+            Content-Type: application/json
+          assertions:
+            - result.statuscode ShouldEqual 200
+            - result.bodyjson.id ShouldEqual {{.id}}
+            - result.bodyjson.vendor ShouldEqual {{.vendor}}
+            - result.bodyjson.name ShouldEqual {{.name}}
+            - result.bodyjson.shop ShouldEqual {{.shop}}
+            - result.bodyjson.price ShouldEqual {{.price}}
+            - result.bodyjson.qty ShouldEqual {{.qty}}
+            - result.bodyjson.time ShouldEqual {{.time}}
+  - name: Delete purchase
+    steps:
+      - type: http
+        method: DELETE
+        url: "{{url}}/1"
+        timeout: 5
+        headers:
+          Accept: application/json
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.id ShouldEqual {{.id}}
+          - result.bodyjson.vendor ShouldEqual {{.vendor}}
+          - result.bodyjson.name ShouldEqual {{.name}}
+          - result.bodyjson.shop ShouldEqual {{.shop}}
+          - result.bodyjson.price ShouldEqual {{.price}}
+          - result.bodyjson.qty ShouldEqual {{.qty}}
+          - result.bodyjson.time ShouldEqual {{.time}}
