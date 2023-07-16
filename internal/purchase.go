@@ -6,13 +6,13 @@ import (
 )
 
 type Purchase struct {
-	id     int       `json:"id"`
-	vendor string    `json:"vendor"`
-	name   string    `json:"title"`
-	shop   string    `json:"title"`
-	price  float64   `json:"title"`
-	qty    int       `json:"title"`
-	time   time.Time `json:"title"`
+	Id     int       `json:"id"`
+	Vendor string    `json:"vendor"`
+	Name   string    `json:"name"`
+	Shop   string    `json:"shop"`
+	Price  float64   `json:"price"`
+	Qty    int       `json:"qty"`
+	Time   time.Time `json:"time"`
 }
 
 func NewPurchase(id int, vendor string, name string, shop string, price float64, qty int, time time.Time) (Purchase, error) {
@@ -24,38 +24,14 @@ func NewPurchase(id int, vendor string, name string, shop string, price float64,
 	}
 
 	purchase := Purchase{
-		id:     id,
-		vendor: vendor,
-		name:   name,
-		shop:   shop,
-		price:  price,
-		qty:    qty,
-		time:   time,
+		Id:     id,
+		Vendor: vendor,
+		Name:   name,
+		Shop:   shop,
+		Price:  price,
+		Qty:    qty,
+		Time:   time,
 	}
 
 	return purchase, nil
-}
-
-func (p *Purchase) GetId() int {
-	return p.id
-}
-
-func (p *Purchase) GetVendor() string {
-	return p.vendor
-}
-
-func (p *Purchase) GetName() string {
-	return p.name
-}
-func (p *Purchase) GetShop() string {
-	return p.shop
-}
-func (p *Purchase) GetPrice() float64 {
-	return p.price
-}
-func (p *Purchase) GetQty() int {
-	return p.qty
-}
-func (p *Purchase) GetTime() time.Time {
-	return p.time
 }
