@@ -7,13 +7,14 @@ import (
 )
 
 func TestCreateValidPurchase(t *testing.T) {
+	id := 0
 	vendor := "Red Bull"
 	name := "Organics Cola"
 	shop := "Interspar"
 	price := 1.59
 	qty := 2
 	time := time.Now()
-	purchase, err := internal.NewPurchase(vendor, name, shop, price, qty, time)
+	purchase, err := internal.NewPurchase(id, vendor, name, shop, price, qty, time)
 	if err != nil {
 		t.Errorf("Purchase creation failed, except it should: %s", err)
 	}
@@ -40,36 +41,39 @@ func TestCreateValidPurchase(t *testing.T) {
 }
 
 func TestCreatePurchaseNegativePrice(t *testing.T) {
+	id := 0
 	vendor := "Red Bull"
 	name := "Organics Cola"
 	shop := "Interspar"
 	price := -1.59
 	qty := 2
-	_, err := internal.NewPurchase(vendor, name, shop, price, qty, time.Now())
+	_, err := internal.NewPurchase(id, vendor, name, shop, price, qty, time.Now())
 	if err == nil {
 		t.Errorf("Purchase creation sucessful, except it shouldn't")
 	}
 }
 
 func TestCreatePurchaseNegativeQty(t *testing.T) {
+	id := 0
 	vendor := "Red Bull"
 	name := "Organics Cola"
 	shop := "Interspar"
 	price := 1.59
 	qty := -1
-	_, err := internal.NewPurchase(vendor, name, shop, price, qty, time.Now())
+	_, err := internal.NewPurchase(id, vendor, name, shop, price, qty, time.Now())
 	if err == nil {
 		t.Errorf("Purchase creation sucessful, except it shouldn't")
 	}
 }
 
 func TestCreatePurchaseZeroQty(t *testing.T) {
+	id := 0
 	vendor := "Red Bull"
 	name := "Organics Cola"
 	shop := "Interspar"
 	price := 1.59
 	qty := 0
-	_, err := internal.NewPurchase(vendor, name, shop, price, qty, time.Now())
+	_, err := internal.NewPurchase(id, vendor, name, shop, price, qty, time.Now())
 	if err == nil {
 		t.Errorf("Purchase creation sucessful, except it shouldn't")
 	}
@@ -100,8 +104,8 @@ func TestFillReceipt(t *testing.T) {
 	shop := "Interspar"
 	receipt, _ := internal.NewReceipt(currentTime, shop)
 
-	receipt.Add("Red Bull", "Organics Cola", 1.59, 3)
-	receipt.Add("Innocent", "Orange Smoothie", 3.09, 1)
+	receipt.Add(0, "Red Bull", "Organics Cola", 1.59, 3)
+	receipt.Add(1, "Innocent", "Orange Smoothie", 3.09, 1)
 
 	if receipt.Size() != 2 {
 		t.Errorf("Invalid purchases size: %d", receipt.Size())
@@ -113,8 +117,8 @@ func TestFillReceiptWithInvalidItem(t *testing.T) {
 	shop := "Interspar"
 	receipt, _ := internal.NewReceipt(currentTime, shop)
 
-	receipt.Add("Red Bull", "Organics Cola", 1.59, 3)
-	receipt.Add("Innocent", "Orange Smoothie", -3.09, 1)
+	receipt.Add(0, "Red Bull", "Organics Cola", 1.59, 3)
+	receipt.Add(1, "Innocent", "Orange Smoothie", -3.09, 1)
 
 	if receipt.Size() != 1 {
 		t.Errorf("Invalid purchases size: %d", receipt.Size())
@@ -126,7 +130,7 @@ func TestReceiptPurchaseTime(t *testing.T) {
 	shop := "Interspar"
 	receipt, _ := internal.NewReceipt(currentTime, shop)
 
-	receipt.Add("Red Bull", "Organics Cola", 1.59, 3)
+	receipt.Add(0, "Red Bull", "Organics Cola", 1.59, 3)
 
 	purchase0 := receipt.Get(0)
 	purchaseTime := purchase0.GetTime()
@@ -140,7 +144,7 @@ func TestReceiptPurchaseShop(t *testing.T) {
 	shop := "Interspar"
 	receipt, _ := internal.NewReceipt(currentTime, shop)
 
-	receipt.Add("Red Bull", "Organics Cola", 1.59, 3)
+	receipt.Add(0, "Red Bull", "Organics Cola", 1.59, 3)
 
 	receipt0 := receipt.Get(0)
 	purchaseShop := receipt0.GetShop()

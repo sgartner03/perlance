@@ -6,15 +6,16 @@ import (
 )
 
 type Purchase struct {
-	vendor string
-	name   string
-	shop   string
-	price  float64
-	qty    int
-	time   time.Time
+	id     int       `json:"id"`
+	vendor string    `json:"vendor"`
+	name   string    `json:"title"`
+	shop   string    `json:"title"`
+	price  float64   `json:"title"`
+	qty    int       `json:"title"`
+	time   time.Time `json:"title"`
 }
 
-func NewPurchase(vendor string, name string, shop string, price float64, qty int, time time.Time) (Purchase, error) {
+func NewPurchase(id int, vendor string, name string, shop string, price float64, qty int, time time.Time) (Purchase, error) {
 	if price < 0.0 {
 		return Purchase{}, errors.New("price can't be negative")
 	}
@@ -23,6 +24,7 @@ func NewPurchase(vendor string, name string, shop string, price float64, qty int
 	}
 
 	purchase := Purchase{
+		id:     id,
 		vendor: vendor,
 		name:   name,
 		shop:   shop,
@@ -32,6 +34,10 @@ func NewPurchase(vendor string, name string, shop string, price float64, qty int
 	}
 
 	return purchase, nil
+}
+
+func (p *Purchase) GetId() int {
+	return p.id
 }
 
 func (p *Purchase) GetVendor() string {
