@@ -24,6 +24,8 @@ jobs:
         uses: actions/setup-node@v3
       - name: Install newman
         run: npm install -g newman
+      - name: Run service
+        run: go run cmd/* &
       - name: Run newman tests
         run: |-
           cd test/newman
