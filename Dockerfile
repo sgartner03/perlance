@@ -1,9 +1,10 @@
 FROM golang AS builder
 COPY . /perlance
-RUN cd cmd && \
+RUN cd /perlance/cmd && \
     go build && \
     mv cmd / && \
-    rm /perlance
+    rm -r /perlance
 
 FROM builder
-CMD ./cmd
+EXPOSE 8080
+CMD /cmd
