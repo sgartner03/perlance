@@ -1,0 +1,15 @@
+name: 'Main Branch'
+on: [push, workflow_dispatch]
+
+jobs:
+  golang-test: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install golang
+        run: apt install -y golang-go
+      - name: Run tests
+        run: |-
+          cd cmd/test
+          go test
