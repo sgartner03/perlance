@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "sgartner/perlance/internal"
+	_ "github.com/sgartner03/perlance/internal"
 )
 
 func main() {
