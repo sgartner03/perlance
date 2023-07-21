@@ -24,9 +24,9 @@ jobs:
         uses: actions/setup-node@v3
       - name: Install newman
         run: npm install -g newman
-      - name: Run service
-        run: go run cmd/* &
       - name: Run newman tests
         run: |-
+          go run cmd/* &
+          sleep 5
           cd test/newman
           newman run perlance.postman_collection.json -n 10
