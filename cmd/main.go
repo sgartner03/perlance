@@ -16,6 +16,6 @@ func main() {
 	router.PUT("/purchases", handler.putPurchase)
 	router.DELETE("/purchases/:id", handler.deletePurchase)
 
-	router.Handle("TRACE", "/*all")
+	router.NoRoute(trace)
 	router.Run("localhost:8080")
 }
