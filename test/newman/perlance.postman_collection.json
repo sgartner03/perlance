@@ -200,6 +200,7 @@
 							"pm.collectionVariables.set(\"qty2\", parseFloat(qty))",
 							"",
 							"var time = pm.variables.replaceIn(\"{{$isoTimestamp}}\")",
+							"",
 							"// Remove trailing zeroes",
 							"for (let i = time.length - 2; i > time.length -4 ; i--) {",
 							"    if (time[i] == \"0\") {",
