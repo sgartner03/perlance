@@ -19,8 +19,8 @@ func NewReceipt(time time.Time, shop string) (Receipt, error) {
 	return receipt, nil
 }
 
-func (receipt *Receipt) Add(vendor string, name string, price float64, qty int) error {
-	purchase, err := NewPurchase(vendor, name, receipt.shop, price, qty, receipt.time)
+func (receipt *Receipt) Add(id int, vendor string, name string, price float64, qty int) error {
+	purchase, err := NewPurchase(id, vendor, name, receipt.shop, price, qty, receipt.time)
 	if err != nil {
 		return err
 	} else {

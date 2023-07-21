@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "3e458e43-43ca-4774-9949-3b3a3f200211",
+		"name": "perlance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14168510"
+	},
+	"item": [
+		{
+			"name": "Create Purchase",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status should be 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Response should include the created purchase\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(response.id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor\");",
+							"    pm.expect(response.vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name\");",
+							"    pm.expect(response.name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop\");",
+							"    pm.expect(response.shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price\");",
+							"    pm.expect(response.price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty\");",
+							"    pm.expect(response.qty).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time\");",
+							"    pm.expect(response.time).to.eql(time);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const id = pm.variables.replaceIn(\"{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"id\", id)",
+							"",
+							"const vendor = pm.variables.replaceIn(\"{{$randomCompanyName}}\")",
+							"pm.collectionVariables.set(\"vendor\", vendor)",
+							"",
+							"const name = pm.variables.replaceIn(\"{{$randomProductName}}\")",
+							"pm.collectionVariables.set(\"name\", name)",
+							"",
+							"const shop = pm.variables.replaceIn(\"{{$randomCompanyName}}\")",
+							"pm.collectionVariables.set(\"shop\", shop)",
+							"",
+							"const price = pm.variables.replaceIn(\"{{$randomInt}}.{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"price\", price)",
+							"",
+							"const qty = pm.variables.replaceIn(\"{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"qty\", qty)",
+							"",
+							"let time = pm.variables.replaceIn(\"{{$isoTimestamp}}\")",
+							"",
+							"// Remove trailing zeroes",
+							"for (let i = time.length - 2; i > time.length -4 ; i--) {",
+							"    if (time[i] == \"0\") {",
+							"        time = time.slice(0, i) + \"Z\";",
+							"    } else {",
+							"        break;",
+							"    }",
+							"}",
+							"",
+							"pm.collectionVariables.set(\"time\", time)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": {{id}},\n    \"vendor\": \"{{vendor}}\",\n    \"name\": \"{{name}}\",\n    \"shop\": \"{{shop}}\",\n    \"price\": {{price}},\n    \"qty\": {{qty}},\n    \"time\": \"{{time}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/purchases",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Purchase",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const newPrice = pm.variables.replaceIn(\"{{$randomInt}}.{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"price\", parseFloat(newPrice))"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response should include the updated purchase\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(response.id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor\");",
+							"    pm.expect(response.vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name\");",
+							"    pm.expect(response.name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop\");",
+							"    pm.expect(response.shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price\");",
+							"    pm.expect(response.price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty\");",
+							"    pm.expect(response.qty).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time\");",
+							"    pm.expect(response.time).to.eql(time);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": {{id}},\n    \"vendor\": \"{{vendor}}\",\n    \"name\": \"{{name}}\",\n    \"shop\": \"{{shop}}\",\n    \"price\": {{price}},\n    \"qty\": {{qty}},\n    \"time\": \"{{time}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/purchases",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Purchases",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const id = pm.variables.replaceIn(\"{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"id2\", parseInt(id), Number)",
+							"",
+							"const vendor = pm.variables.replaceIn(\"{{$randomCompanyName}}\")",
+							"pm.collectionVariables.set(\"vendor2\", vendor)",
+							"",
+							"const name = pm.variables.replaceIn(\"{{$randomProductName}}\")",
+							"pm.collectionVariables.set(\"name2\", name)",
+							"",
+							"const shop = pm.variables.replaceIn(\"{{$randomCompanyName}}\")",
+							"pm.collectionVariables.set(\"shop2\", shop)",
+							"",
+							"const price = pm.variables.replaceIn(\"{{$randomInt}}.{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"price2\", parseFloat(price))",
+							"",
+							"const qty = pm.variables.replaceIn(\"{{$randomInt}}\")",
+							"pm.collectionVariables.set(\"qty2\", parseFloat(qty))",
+							"",
+							"var time = pm.variables.replaceIn(\"{{$isoTimestamp}}\")",
+							"",
+							"// Remove trailing zeroes",
+							"for (let i = time.length - 2; i > time.length -4 ; i--) {",
+							"    if (time[i] == \"0\") {",
+							"        time = time.slice(0, i) + \"Z\";",
+							"    } else {",
+							"        break;",
+							"    }",
+							"}",
+							"pm.collectionVariables.set(\"time2\", time)",
+							"",
+							"const options = {",
+							"    url: pm.collectionVariables.get(\"url\") +  \"/purchases\",",
+							"    method: 'POST',",
+							"    header: { 'content-type': 'application/json' },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({",
+							"        \"id\": pm.collectionVariables.get(\"id2\"),",
+							"        \"vendor\": pm.collectionVariables.get(\"vendor2\"),",
+							"        \"name\": pm.collectionVariables.get(\"name2\"),",
+							"        \"shop\": pm.collectionVariables.get(\"shop2\"),",
+							"        \"price\": pm.collectionVariables.get(\"price2\"),",
+							"        \"qty\": pm.collectionVariables.get(\"qty2\"),",
+							"        \"time\": pm.collectionVariables.get(\"time2\")",
+							"        })",
+							"    }",
+							"};",
+							"",
+							"pm.sendRequest(options, function (err, res) {",
+							"    var jsonData = res.json();",
+							"    if (err) {",
+							"        console.log(err);",
+							"    }",
+							"    else {",
+							"        pm.environment.set(\"Response\", jsonData.ID);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response should include the purchases [1/2]\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(response[0].id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor\");",
+							"    pm.expect(response[0].vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name\");",
+							"    pm.expect(response[0].name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop\");",
+							"    pm.expect(response[0].shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price\");",
+							"    pm.expect(response[0].price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty\");",
+							"    pm.expect(response[0].qty).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time\");",
+							"    pm.expect(response[0].time).to.eql(time);",
+							"});",
+							"",
+							"pm.test(\"Response should include the purchases [2/2]\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id2\");",
+							"    pm.expect(response[1].id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor2\");",
+							"    pm.expect(response[1].vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name2\");",
+							"    pm.expect(response[1].name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop2\");",
+							"    pm.expect(response[1].shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price2\");",
+							"    pm.expect(response[1].price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty2\");",
+							"    pm.expect(parseInt(response[1].qty)).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time2\");",
+							"    pm.expect(response[1].time).to.eql(time);",
+							"});",
+							"",
+							"const options = {",
+							"    url: pm.collectionVariables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id2\")) + \"/\",",
+							"    method: 'DELETE'",
+							"};",
+							"",
+							"pm.sendRequest(options, function (err, res) {",
+							"    var jsonData = res.json();",
+							"    if (err) {",
+							"        console.log(err);",
+							"    }",
+							"    else {",
+							"        pm.collectionVariables.set(\"Response\", jsonData.ID);",
+							"    }",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/purchases",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Single Purchase",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should include the updated purchase\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(response.id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor\");",
+							"    pm.expect(response.vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name\");",
+							"    pm.expect(response.name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop\");",
+							"    pm.expect(response.shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price\");",
+							"    pm.expect(response.price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty\");",
+							"    pm.expect(response.qty).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time\");",
+							"    pm.expect(response.time).to.eql(time);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/purchases/{{id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases",
+						"{{id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Purchase",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response should include the updated purchase\", () => {",
+							"    const response = pm.response.json();",
+							"",
+							"    const id = pm.collectionVariables.get(\"id\");",
+							"    pm.expect(response.id).to.eql(parseInt(id));",
+							"",
+							"    const vendor = pm.collectionVariables.get(\"vendor\");",
+							"    pm.expect(response.vendor).to.eql(vendor);",
+							"",
+							"    const name = pm.collectionVariables.get(\"name\");",
+							"    pm.expect(response.name).to.eql(name);",
+							"    const shop = pm.collectionVariables.get(\"shop\");",
+							"    pm.expect(response.shop).to.eql(shop);",
+							"    const price = pm.collectionVariables.get(\"price\");",
+							"    pm.expect(response.price).to.eql(parseFloat(price));",
+							"    const qty = pm.collectionVariables.get(\"qty\");",
+							"    pm.expect(response.qty).to.eql(parseInt(qty));",
+							"    const time = pm.collectionVariables.get(\"time\");",
+							"    pm.expect(response.time).to.eql(time);",
+							"});",
+							"",
+							"const options = {",
+							"    url: pm.collectionVariables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id\")) + \"/\",",
+							"    method: 'GET'",
+							"};",
+							"",
+							"pm.sendRequest(options, function (err, res) {",
+							"    if (err) {",
+							"        console.log(err);",
+							"    }",
+							"    ",
+							"    pm.test(\"Element should be deleted\", () => {",
+							"        pm.expect(res).to.have.property('code', 404)",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/purchases/{{id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases",
+						"{{id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/purchases",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Trace message is working\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Trace message has content type http/message\", () => {",
+							"    pm.response.to.be.header(\"Content-Type\", \"http/message\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "TRACE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/purchases/{{id}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"purchases",
+						"{{id}}",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "vendor",
+			"value": ""
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "shop",
+			"value": ""
+		},
+		{
+			"key": "price",
+			"value": ""
+		},
+		{
+			"key": "qty",
+			"value": ""
+		},
+		{
+			"key": "time",
+			"value": ""
+		},
+		{
+			"key": "id2",
+			"value": ""
+		},
+		{
+			"key": "vendor2",
+			"value": ""
+		},
+		{
+			"key": "name2",
+			"value": ""
+		},
+		{
+			"key": "shop2",
+			"value": ""
+		},
+		{
+			"key": "price2",
+			"value": ""
+		},
+		{
+			"key": "qty2",
+			"value": ""
+		},
+		{
+			"key": "time2",
+			"value": ""
+		},
+		{
+			"key": "Response",
+			"value": ""
+		}
+	]
+}
