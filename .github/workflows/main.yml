@@ -13,6 +13,5 @@ jobs:
           go-version: '^1.18.1'
       - name: Run tests
         run: |-
-          ls
-          cd perlance/cmd/test
+          cd cmd/test
           go test
