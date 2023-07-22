@@ -72,3 +72,33 @@ func (purchase *Purchase) WritePurchase() {
 		log.Fatal(err)
 	}
 }
+
+type FilterOption func(query *string) error
+
+func WithFilter(key string, value string) FilterOption {
+	return func(query *string) error {
+		keys := []string{"vendor", "name", "shop", "price", "qty"}
+
+		if !Contains(key, keys) {
+			return errors.New("No matching option found")
+		}
+		*query += fmt.Sprintf("    |> filter(fn: (r) => r.%s == \"%s\"", key, value)
+		return nil
+	}
+}
+
+func Contains(str string, slice []string) bool {
+	for _, item := range slice {
+		if item == str {
+			return true
+		}
+	}
+	return false
+}
+
+func (purchase *Purchase) GetPurchases(opts ...FilterOption) {
+	query := ""
+	for _, option := range opts {
+		option(&query)
+	}
+}
