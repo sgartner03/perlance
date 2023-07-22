@@ -1,0 +1,11 @@
+name: 'Push on branch'
+on:
+  push:
+    branches:
+      - '*'
+      - '!master'
+  workflow_dispatch:
+
+jobs:
+  golang-test:
+    uses: ./.github/workflows/go-test.yml
