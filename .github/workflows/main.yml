@@ -43,10 +43,13 @@ jobs:
       - name: Run container
         run: docker run -d -p 8080:8080 -n perlance perlance
       - name: Get IP of container
-        run: IP=$(docker inspect -f \
-             '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' perlance)
+        run: |-
+              IP=$(docker inspect -f \
+              '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
+              perlance)
+              echo "[{\"url\": \"http://${IP}:8080\"}]" > env.json
       - name: Run Newman tests
-        run: newman run test/newmanperlance.postman_collection.json -n 10
+        run: newman run test/newmanperlance.postman_collection.json -d env.json -n 10
       - name: Push Container to GHCR
         uses: docker/build-push-action@v4
         with:
