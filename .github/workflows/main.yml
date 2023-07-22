@@ -1,6 +1,7 @@
 name: 'Main Branch'
 on:
   push:
+    - '*'
   workflow_dispatch:
   tags:
     - 'v*'
