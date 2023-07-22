@@ -40,6 +40,8 @@ jobs:
           context: .
           load: true
           tags: perlance
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       - name: Run container
         run: docker run -d -p 8080:8080 --name perlance perlance
       - name: Get IP of container
@@ -56,3 +58,5 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/sgartner03/perlance
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
