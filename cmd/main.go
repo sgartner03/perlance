@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	_ "sgartner/perlance/internal"
+	_ "github.com/sgartner03/perlance/internal"
 )
 
 func main() {
@@ -17,5 +17,5 @@ func main() {
 	router.DELETE("/purchases/:id", handler.deletePurchase)
 
 	router.NoRoute(trace)
-	router.Run("localhost:8080")
+	router.Run(":8080")
 }
