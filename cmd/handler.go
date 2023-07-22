@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
+	"github.com/sgartner03/perlance/internal"
 	"net/http"
-	"sgartner/perlance/internal"
 	"strconv"
 )
 
