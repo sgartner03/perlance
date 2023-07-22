@@ -41,7 +41,7 @@ jobs:
           load: true
           tags: perlance
       - name: Run container
-        run: docker run -d -p 8080:8080 -n perlance perlance
+        run: docker run -d -p 8080:8080 --name perlance perlance
       - name: Get IP of container
         run: |-
               IP=$(docker inspect -f \
