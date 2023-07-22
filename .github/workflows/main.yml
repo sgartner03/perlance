@@ -1,10 +1,5 @@
 name: 'Main Branch'
-on:
-  push:
-    - '*'
-  workflow_dispatch:
-  tags:
-    - 'v*'
+on: [push, workflow_dispatch]
 
 env:
   REGISTRY: ghcr.io
