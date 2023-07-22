@@ -1,5 +1,10 @@
 name: 'Main Branch'
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches: 'master'
+  pull_request:
+    branches: 'master'
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
@@ -52,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
