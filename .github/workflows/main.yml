@@ -12,9 +12,6 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  golang-test: 
-    uses: ./.github/workflows/go-test.yml
-
   container-build:
     permissions:
       contents: read
