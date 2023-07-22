@@ -38,21 +38,18 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
+          load: true
+          tags: perlance
+      - name: Run container
+        run: docker run -d -p 8080:8080 -n perlance perlance
+      - name: Get IP of container
+        run: IP=$(docker inspect -f \
+             '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' perlance)
+      - name: Run Newman tests
+        run: newman run test/newmanperlance.postman_collection.json -n 10
+      - name: Push Container to GHCR
+        uses: docker/build-push-action@v4
+        with:
+          context: .
           push: true
-          tags: ghcr.io/sgartner03/perlance:untested
-
-  newman-test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-      - name: Install newman
-        run: npm install -g newman
-      - name: Run newman tests
-        run: |-
-          go run cmd/* &
-          sleep 5
-          cd test/newman
-          newman run perlance.postman_collection.json -n 10
+          tags: ghcr.io/sgartner03/perlance
