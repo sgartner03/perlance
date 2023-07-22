@@ -1,9 +1,22 @@
 package internal
 
 import (
+	"context"
 	"errors"
+	"fmt"
+	"github.com/influxdata/influxdb-client-go/v2"
+	"github.com/influxdata/influxdb-client-go/v2/api/write"
+	"log"
 	"time"
 )
+
+var client influxdb2.Client
+
+func init() {
+	token := "_XNTp2Hh7cbuNkjK4fHQBbmpoA2TMcPc6Wxz5FX0oC0Ljzyh897_m2o1t483iGPADgICRzwIjnFteUXMf38vgw==" //os.Getenv("INFLUXDB_TOKEN")
+	url := "http://localhost:8086"
+	client = influxdb2.NewClient(url, token)
+}
 
 type Purchase struct {
 	Id     int       `json:"id"`
@@ -34,4 +47,28 @@ func NewPurchase(id int, vendor string, name string, shop string, price float64,
 	}
 
 	return purchase, nil
+}
+
+func (purchase *Purchase) WritePurchase() {
+	org := "perlance-devs"
+	bucket := "perlance"
+	writeAPI := client.WriteAPIBlocking(org, bucket)
+	tags := map[string]string{
+		"vendor": purchase.Vendor,
+		"name":   purchase.Name,
+		"shop":   purchase.Shop,
+		"price":  fmt.Sprintf("%f", purchase.Price),
+		"qty":    fmt.Sprintf("%d", purchase.Qty),
+	}
+	fields := map[string]interface{}{
+		"amount": float64(purchase.Qty) * purchase.Price,
+	}
+	point := write.NewPoint(
+		"purchase",
+		tags, fields, purchase.Time)
+
+	err := writeAPI.WritePoint(context.Background(), point)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

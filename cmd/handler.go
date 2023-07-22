@@ -43,6 +43,7 @@ func (h *Handler) createPurchase(c *gin.Context) {
 		fmt.Println(err)
 	} else {
 		h.purchases = append(h.purchases, purchase)
+		purchase.WritePurchase()
 		c.IndentedJSON(http.StatusCreated, purchase)
 	}
 }
