@@ -212,7 +212,7 @@
 							"pm.collectionVariables.set(\"time2\", time)",
 							"",
 							"const options = {",
-							"    url: pm.collectionVariables.get(\"url\") +  \"/purchases\",",
+							"    url: pm.variables.get(\"url\") +  \"/purchases\",",
 							"    method: 'POST',",
 							"    header: { 'content-type': 'application/json' },",
 							"    body: {",
@@ -293,7 +293,7 @@
 							"});",
 							"",
 							"const options = {",
-							"    url: pm.collectionVariables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id2\")) + \"/\",",
+							"    url: pm.variables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id2\")) + \"/\",",
 							"    method: 'DELETE'",
 							"};",
 							"",
@@ -407,7 +407,7 @@
 							"});",
 							"",
 							"const options = {",
-							"    url: pm.collectionVariables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id\")) + \"/\",",
+							"    url: pm.variables.get(\"url\") + \"/purchases/\" + parseInt(pm.collectionVariables.get(\"id\")) + \"/\",",
 							"    method: 'GET'",
 							"};",
 							"",
@@ -501,11 +501,6 @@
 		}
 	],
 	"variable": [
-		{
-			"key": "url",
-			"value": "http://localhost:8080",
-			"type": "string"
-		},
 		{
 			"key": "id",
 			"value": ""
